@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HostPost — Tailored Menswear</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <span>Free delivery inside Dhaka · Pay with bKash, Rocket or Cash on Delivery</span>
+  <span id="session-label">Not signed in</span>
+</div>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#" onclick="showView('home')" class="logo">Host<span>Post</span></a>
+    <nav class="nav-links">
+      <a href="#" onclick="showView('home')">Home</a>
+      <a href="#" onclick="showShop('all')">Shop</a>
+      <a href="#" onclick="showShop('all');scrollWheel()">Discount Wheel</a>
+      <a href="#" onclick="openAdminLogin()">Admin</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="#" class="icon-btn" onclick="handleAccountClick()" id="account-link">Account</a>
+      <a href="#" class="icon-btn" onclick="showView('cart')">Cart <span class="badge" id="cart-count">0</span></a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ HOME ============ -->
+<section id="view-home" class="view active">
+  <div class="hero">
+    <div>
+      <div class="eyebrow">MENSWEAR, MADE DELIBERATE</div>
+      <h1>Sharper tailoring, straight to your door.</h1>
+      <p class="lead">Shirts, trousers, suits, ties, shoes and socks — cut for men who don't have time to compromise on fit.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="showShop('all')">Shop the collection</button>
+        <button class="btn btn-outline" onclick="scrollWheel()">Spin for a discount</button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="tag"><span>Autumn Line, 01</span><b>Charcoal Two-Piece Suit</b></div>
+    </div>
+  </div>
+
+  <div class="cats" id="home-cats"></div>
+
+  <div class="section-head">
+    <h2>New arrivals</h2>
+    <span class="sub" onclick="showShop('all')" style="cursor:pointer">View all products →</span>
+  </div>
+  <div class="grid" id="home-grid"></div>
+
+  <div class="wheel-band" id="wheel-band">
+    <div>
+      <h2>Spin the HostPost wheel.</h2>
+      <p>Every visitor gets one free spin per session — win anywhere from 5% to 30% off, applied automatically at checkout.</p>
+      <div id="wheel-btn-wrap" style="margin-top:22px;">
+        <button class="btn btn-gold" onclick="spinWheel()" id="spin-btn">Spin now</button>
+      </div>
+    </div>
+    <div class="wheel-wrap">
+      <div class="wheel-outer">
+        <div class="wheel-pointer"></div>
+        <svg id="wheel" viewBox="0 0 200 200"></svg>
+      </div>
+      <div class="wheel-result" id="wheel-result">One free spin — good luck.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SHOP ============ -->
+<section id="view-shop" class="view">
+  <div class="section-head" style="margin-top:40px;">
+    <h2>Shop all products</h2>
+    <span class="sub" id="shop-count-label"></span>
+  </div>
+  <div class="filters" id="shop-filters"></div>
+  <div class="grid" id="shop-grid"></div>
+</section>
+
+<!-- ============ PRODUCT DETAIL ============ -->
+<section id="view-product" class="view">
+  <div class="pd" id="pd-content"></div>
+</section>
+
+<!-- ============ CART ============ -->
+<section id="view-cart" class="view">
+  <div class="section-head" style="margin-top:40px;"><h2>Your cart</h2></div>
+  <div id="cart-body"></div>
+</section>
+
+<!-- ============ CHECKOUT ============ -->
+<section id="view-checkout" class="view">
+  <div class="section-head" style="margin-top:40px;"><h2>Checkout</h2></div>
+  <div id="checkout-body"></div>
+</section>
+
+<!-- ============ CUSTOMER LOGIN ============ -->
+<section id="view-login" class="view">
+  <div class="auth-shell">
+    <h2>Sign in to HostPost</h2>
+    <div class="sub">Use your Gmail address and password.</div>
+    <div class="form-error" id="login-error"></div>
+    <div class="field">
+      <label>Email</label>
+      <input type="email" id="login-email" placeholder="you@gmail.com">
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="login-password" placeholder="••••••••">
+    </div>
+    <button class="btn btn-primary btn-block" onclick="doLogin()">Sign in</button>
+    <div class="auth-switch">New here? <a href="#" onclick="showView('register')">Create an account</a></div>
+  </div>
+</section>
+
+<!-- ============ CUSTOMER REGISTER ============ -->
+<section id="view-register" class="view">
+  <div class="auth-shell">
+    <h2>Create your account</h2>
+    <div class="sub">Register with a Gmail address to shop and track orders.</div>
+    <div class="form-error" id="register-error"></div>
+    <div class="field">
+      <label>Full name</label>
+      <input type="text" id="reg-name" placeholder="Your name">
+    </div>
+    <div class="field">
+      <label>Email (must be a @gmail.com address)</label>
+      <input type="email" id="reg-email" placeholder="you@gmail.com">
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="reg-password" placeholder="••••••••">
+      <div class="hint">At least 8 characters, one capital letter, one number and one symbol.</div>
+    </div>
+    <button class="btn btn-primary btn-block" onclick="doRegister()">Create account</button>
+    <div class="auth-switch">Already have an account? <a href="#" onclick="showView('login')">Sign in</a></div>
+  </div>
+</section>
+
+<!-- ============ ADMIN LOGIN ============ -->
+<section id="view-admin-login" class="view">
+  <div class="auth-shell">
+    <h2>Admin sign in</h2>
+    <div class="sub">Authorized personnel only.</div>
+    <div class="form-error" id="admin-login-error"></div>
+    <div class="field">
+      <label>Admin email</label>
+      <input type="email" id="admin-login-email" placeholder="admin@gmail.com">
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="admin-login-password" placeholder="••••••••">
+    </div>
+    <button class="btn btn-primary btn-block" onclick="doAdminLogin()">Sign in</button>
+    <div class="hint" style="margin-top:14px;">Demo admin — email: <b>admin@gmail.com</b>, password: <b>Admin@123</b></div>
+    <div class="auth-switch">Not an admin? <a href="#" onclick="showView('register')">Create a customer account</a></div>
+  </div>
+</section>
+
+<!-- ============ ADMIN DASHBOARD ============ -->
+<section id="view-admin" class="view">
+  <div class="admin-shell">
+    <div class="admin-side">
+      <div class="a-logo">HostPost <span style="color:var(--brass-light)">Admin</span></div>
+      <a href="#" data-tab="overview" onclick="showAdminTab('overview')" class="active">Overview</a>
+      <a href="#" data-tab="products" onclick="showAdminTab('products')">Products</a>
+      <a href="#" data-tab="orders" onclick="showAdminTab('orders')">Orders</a>
+      <a href="#" data-tab="customers" onclick="showAdminTab('customers')">Customers</a>
+      <a href="#" onclick="adminLogout()" style="margin-top:20px;border-top:1px solid #33383D;padding-top:16px;">Sign out</a>
+    </div>
+    <div class="admin-main" id="admin-main"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>HostPost — Tailored menswear, delivered across Bangladesh. Demo storefront: data resets on page reload.</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
